@@ -91,11 +91,11 @@ jobs:
         run: |
           source repository/src/config
           NOW=$(date +"%Y-%m-%d")
-          IMAGE=$NOW-mainsailos-$DIST_VERSION
+          IMAGE="${NOW}-${DIST_NAME,,}-${DIST_VERSION}"
 
-          cp repository/src/workspace/*.img $IMAGE.img
+          mv repository/src/workspace/*.img repository/src/workspace/"${IMAGE}".img
 
-          echo "::set-output name=image::$IMAGE"
+          echo "::set-output name=image::repository/src/workspace/$IMAGE"
 
       - name: Compressing Image
         run: |
