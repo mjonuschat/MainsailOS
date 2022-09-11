@@ -19,7 +19,6 @@ on:
 
   workflow_dispatch:
 
-
 # Allow to stop obsolete workflows
 concurrency:
   group: ci-buildraspios-${{ github.ref }}-1
@@ -78,6 +77,11 @@ jobs:
 
       - name: Update CustomPiOS Paths
         run: cd repository/src && ../../CustomPiOS/src/update-custompios-paths
+
+      - name: Copy config
+        run: |
+          cp repository/config/raspberry/config repository/src/config
+          echo "DEBUG: $(ls repository/src/config)"
 
       - name: Build Image
         run: sudo modprobe loop && cd repository/src && sudo bash -x ./build_dist
