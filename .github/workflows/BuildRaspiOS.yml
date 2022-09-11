@@ -110,10 +110,12 @@ jobs:
           echo "Get usable core count"
           CORES_COUNT="$(nproc)"
           echo "DEBUG: Cores avail.: ${CORES_COUNT}"
+          cd repository/src/workspace/
           xz -efkvvz9T"${CORES_COUNT}" ${{ steps.copy-image.outputs.image }}.img || true
 
       - name: Calculating checksums
         run: |
+          cd repository/src/workspace/
           sha256sum ${{ steps.copy-image.outputs.image }}.img > ${{ steps.copy-image.outputs.image }}.img.sha256
           sha256sum ${{ steps.copy-image.outputs.image }}.img.xz > ${{ steps.copy-image.outputs.image }}.img.xz.sha256
 
