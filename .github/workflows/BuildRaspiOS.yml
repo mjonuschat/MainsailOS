@@ -108,7 +108,7 @@ jobs:
           echo "Get usable core count"
           CORES_COUNT="$(nproc)"
           echo "DEBUG: Cores avail.: ${CORES_COUNT}"
-          xz -efkvz9T"${CORES_COUNT}" ${{ steps.copy-image.outputs.image }}.img
+          xz -efkvz9T"${CORES_COUNT}" ${{ steps.copy-image.outputs.image }}.img || true
 
       - name: Calculating checksums
         run: |
