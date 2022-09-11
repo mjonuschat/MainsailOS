@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # Shebang for better detection of file type
 
+# Basic configuration needed for all boards/variants
+
 export DIST_NAME=MainsailOS
 export DIST_VERSION=0.7.1
 export BASE_IMAGE_ENLARGEROOT=2500

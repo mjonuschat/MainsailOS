@@ -78,10 +78,12 @@ jobs:
       - name: Update CustomPiOS Paths
         run: cd repository/src && ../../CustomPiOS/src/update-custompios-paths
 
-      - name: Copy config
+      # Hardcoded path for now -> matrix
+      - name: Merge config files
         run: |
-          cp repository/config/raspberry/config repository/src/config
-          echo "DEBUG: $(ls repository/src/config)"
+          cd repository
+          cat config/config.base config/raspberry/config > src/config
+          echo "DEBUG: $(cat repository/src/config)"
 
       - name: Build Image
         run: sudo modprobe loop && cd repository/src && sudo bash -x ./build_dist
