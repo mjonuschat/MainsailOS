@@ -86,6 +86,10 @@ jobs:
       - name: Build Image
         run: sudo modprobe loop && cd repository/src && sudo bash -x ./build_dist
 
+      - name: Unlock Workspace
+        run: |
+          sudo chmod -R 0777 repository/src/workspace
+
       - name: Copy output
         id: copy-image
         run: |
