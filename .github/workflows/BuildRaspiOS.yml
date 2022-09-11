@@ -99,16 +99,18 @@ jobs:
           NOW=$(date +"%Y-%m-%d")
           IMAGE="${NOW}-${DIST_NAME,,}-${DIST_VERSION}"
 
-          mv repository/src/workspace/*.img repository/src/workspace/"${IMAGE}".img
+          cd repository/src/workspace/
 
-          echo "::set-output name=image::repository/src/workspace/$IMAGE"
+          mv *.img "${IMAGE}".img
+
+          echo "::set-output name=image::$IMAGE"
 
       - name: Compressing Image
         run: |
           echo "Get usable core count"
           CORES_COUNT="$(nproc)"
           echo "DEBUG: Cores avail.: ${CORES_COUNT}"
-          xz -efkvz9T"${CORES_COUNT}" ${{ steps.copy-image.outputs.image }}.img || true
+          xz -efkvvz9T"${CORES_COUNT}" ${{ steps.copy-image.outputs.image }}.img || true
 
       - name: Calculating checksums
         run: |
@@ -119,16 +121,16 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{ steps.copy-image.outputs.image }}.img.xz
-          path: ${{ steps.copy-image.outputs.image }}.img.xz
+          path: repository/src/workspace/${{ steps.copy-image.outputs.image }}.img.xz
 
       - name: Upload Compressed Image Checksum
         uses: actions/upload-artifact@v3
         with:
           name: ${{ steps.copy-image.outputs.image }}.img.xz.sha256
-          path: ${{ steps.copy-image.outputs.image }}.img.xz.sha256
+          path: repository/src/workspace/${{ steps.copy-image.outputs.image }}.img.xz.sha256
 
       - name: Upload Image Checksum
         uses: actions/upload-artifact@v3
         with:
           name: ${{ steps.copy-image.outputs.image }}.img.sha256
-          path: ${{ steps.copy-image.outputs.image }}.img.sha256
+          path: repository/src/workspace/${{ steps.copy-image.outputs.image }}.img.sha256
