@@ -28,7 +28,6 @@ env:
   DOWNLOAD_URL_CHECKSUM: "https://downloads.raspberrypi.org/raspios_lite_armhf_latest.sha256"
   DOWNLOAD_URL_IMAGE: "https://downloads.raspberrypi.org/raspios_lite_armhf_latest.torrent"
   FILENAME_CHECKSUM: "raspios_lite_armhf_latest.sha256"
-  CORES_COUNT: "$(nproc)"
 
 jobs:
   raspiosbuild:
@@ -99,7 +98,11 @@ jobs:
           echo "::set-output name=image::$IMAGE"
 
       - name: Compressing Image
-        run: xz -efkvz9T"${CORES_COUNT}" ${{ steps.copy-image.outputs.image }}.img
+        run: |
+          echo "Get usable core count"
+          CORES_COUNT="$(nproc)"
+          echo "DEBUG: Cores avail.: ${CORES_COUNT}"
+          xz -efkvz9T"${CORES_COUNT}" ${{ steps.copy-image.outputs.image }}.img
 
       - name: Calculating checksums
         run: |
