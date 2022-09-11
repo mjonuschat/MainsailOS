@@ -83,7 +83,7 @@ jobs:
         run: |
           cd repository
           cat config/config.base config/raspberry/config > src/config
-          echo "DEBUG: $(cat repository/src/config)"
+          echo "DEBUG: $(cat src/config)"
 
       - name: Build Image
         run: sudo modprobe loop && cd repository/src && sudo bash -x ./build_dist
